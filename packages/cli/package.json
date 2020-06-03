@@ -17,6 +17,13 @@
   "files": [
     "dist"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Seairth/node-propeller2-loader.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Seairth/node-propeller2-loader/issues"
+  },
   "dependencies": {
     "commander": "^5.1.0",
     "propeller2-loader": "^1.0.0",

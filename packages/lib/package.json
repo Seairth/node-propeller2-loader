@@ -17,6 +17,13 @@
   "files": [
     "dist"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Seairth/node-propeller2-loader.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Seairth/node-propeller2-loader/issues"
+  },
   "peerDependencies": {
     "serialport": "^9.0.0"
   },

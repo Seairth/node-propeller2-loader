@@ -14,10 +14,6 @@
     "lerna": "^3.22.0",
     "typescript": "^3.9.3"
   },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/seairth/node-propeller2-loader.git"
-  },
   "scripts": {
     "build": "tsc",
     "lint": "eslint ./src --ext .ts"
