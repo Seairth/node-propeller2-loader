@@ -1,0 +1,29 @@
+{
+  "name": "propeller2-loader",
+  "version": "1.0.0",
+  "description": "Library for the Parallax Propeller 2 boot serial interface",
+  "keywords": [
+    "Parallax",
+    "Propeller",
+    "Prop2",
+    "P2",
+    "loader",
+    "serial"
+  ],
+  "author": "Seairth Jacobs",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "peerDependencies": {
+    "serialport": "^9.0.0"
+  },
+  "engines": {
+    "node": ">=12.4.0"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json"
+  }
+}

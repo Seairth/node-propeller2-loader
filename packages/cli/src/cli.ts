@@ -3,9 +3,12 @@ import SerialPort = require('serialport');
 import { Command } from 'commander';
 import * as fs from 'fs';
 
-import { propReset, propCheck, propLoad } from '../lib';
-import { waitForOpen } from '../lib/utils';
+import { propReset, propCheck, propLoad } from 'propeller2-loader';
 
+
+export function waitForOpen(port: SerialPort): Promise<any> {
+  return new Promise((resolve, reject) => port.on('open', (err) => err ? reject(err) : resolve()));
+}
 
 async function openPort(path: string): Promise<SerialPort> {
   let port: SerialPort;

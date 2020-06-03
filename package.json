@@ -1,32 +1,22 @@
 {
-  "name": "p2loader",
-  "version": "0.1.0",
-  "description": "Library and CLI for the Parallax Propeller 2 boot serial interface",
-  "keywords": [
-    "Parallax",
-    "Propeller",
-    "Prop2",
-    "P2",
-    "loader"
-  ],
+  "name": "node-propeller2-loader-monorepo",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Monorepo for Library and CLI for the Parallax Propeller 2 boot serial interface",
   "author": "Seairth Jacobs",
   "license": "ISC",
-  "main": "dist/lib/index.js",
-  "bin": {
-    "p2load": "dist/bin/cli.js"
-  },
-  "dependencies": {
-    "commander": "^5.1.0",
-    "serialport": "^9.0.0"
-  },
   "devDependencies": {
-    "@serialport/list": "^9.0.0",
     "@types/node": "^14.0.5",
     "@types/serialport": "^8.0.1",
     "@typescript-eslint/eslint-plugin": "^3.0.2",
     "@typescript-eslint/parser": "^3.0.2",
     "eslint": "^7.1.0",
+    "lerna": "^3.22.0",
     "typescript": "^3.9.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/seairth/node-propeller2-loader.git"
   },
   "scripts": {
     "build": "tsc",

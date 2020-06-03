@@ -1,0 +1,31 @@
+{
+  "name": "propeller2-loader-cli",
+  "version": "1.0.0",
+  "description": "CLI for the propeller2-loader library",
+  "keywords": [
+    "Parallax",
+    "Propeller",
+    "Prop2",
+    "P2",
+    "loader"
+  ],
+  "author": "Seairth Jacobs",
+  "license": "ISC",
+  "bin": {
+    "p2load": "dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "commander": "^5.1.0",
+    "propeller2-loader": "^1.0.0",
+    "serialport": "^9.0.0"
+  },
+  "engines": {
+    "node": ">=12.4.0"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json"
+  }
+}
