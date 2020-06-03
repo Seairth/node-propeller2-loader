@@ -16,12 +16,11 @@ export async function propReset(port: SerialPort, sendPreamble = true): Promise<
     await waitForDuration(10);
 
     port.set({
-      dtr: true
+      dtr: false
     });
 
-    await waitForDuration(20);
-
     if (sendPreamble) {
+      await waitForDuration(20);
       port.write(AUTOBAUD_PREAMBLE);
     }
   }
