@@ -6,7 +6,7 @@ A CLI for interacting with the [Propeller 2](https://propeller.parallax.com) Boo
 ```
   npm -g install propeller2-loader-cli
 ```
-## Usage
+## **Usage**
 
 ```
   p2load -h
@@ -22,11 +22,13 @@ A CLI for interacting with the [Propeller 2](https://propeller.parallax.com) Boo
 ### Options
 #### Global options
 ```
-  -p, --port <portName>      Perial port to use. If not specified, attempt to auto-discover the port. 
+  -p, --port <portName>      Serial port to use. If not specified, attempt to auto-discover the port.
+  -b, --baud <baudRate>      Baud Rate. If not specifided, the default baud rate is 115200.
+                             Values may use the 'K', 'k', 'M', or 'm' suffix (e.g. 1K = 1000, 2M = 2000000)
   -v, --version              Output the CLI version
   -h, --help                 Display help for command 
 ```
 #### Load options
 ```
-  --mode <mode>              Load as "hex" or "base64" (default is "base64")
+  --mode <mode>              Load as "hex" or "base64". If not specified, the default is "base64".
 ```

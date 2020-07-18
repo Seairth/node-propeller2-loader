@@ -1,13 +1,14 @@
 import SerialPort = require('serialport');
 
 import { ChecksumError, TimeoutError } from './errors';
-import { waitForDrain } from './utils';
+import { waitForDuration } from './utils';
 import { getSelectParams, getValidWriteCommandOptions, WriteCommandOptions } from './options';
 
 const AUTOBAUD_CHAR = '>';
 const AUTOBAUD_INTERVAL = 32;
 
 const CHECKSUM_MASK = 0x706F7250;
+const FUDGE_FACTOR = 1.1;
 
 function calculateAndSetChecksum(data: ArrayBuffer) {
   const a = new Uint32Array(data);
@@ -71,34 +72,21 @@ export async function propLoad( port: SerialPort, data: ArrayBuffer|Buffer, opti
     text = Buffer.from(buffer).toString('base64');
   }
 
-  port.write(`> Prop_${cmd} ${getSelectParams(opt)} `);
+  text = text.replace(new RegExp(`(.{${AUTOBAUD_INTERVAL}})`, 'g'), `$1${AUTOBAUD_CHAR}`);
+  text = `> Prop_${cmd} ${getSelectParams(opt)} ` + text + (opt.checksum ? ' ?' : ' ~');
 
-  let sent = 0;
+  // (text length + approximate header length) * (byte rate at 8N1) * (fudge factor)
+  const writeTime = (text.length + 20) * (10 / port.baudRate) * FUDGE_FACTOR;
 
-  for (const char of text) {
-    if (!port.write(char)) {
-      await waitForDrain(port);
-    }
-
-    sent = (sent + 1) % AUTOBAUD_INTERVAL;
-
-    if (sent === 0) {
-      if(!port.write(AUTOBAUD_CHAR)) {
-        await waitForDrain(port);
-      }
-    }
-  }
+  port.write(text);
 
   if (opt.checksum) {
-    port.write(' ?');
-    await waitForDrain(port, true);
-
     return new Promise((resolve, reject) => {
       const callback = (response: string) => {
         clearTimeout(h);
         port.off('data', callback);
 
-        if (response === '.') {
+        if (response[0] === '.') {
           resolve();
         } else {
           reject(new ChecksumError());
@@ -110,12 +98,11 @@ export async function propLoad( port: SerialPort, data: ArrayBuffer|Buffer, opti
           port.off('data', callback);
           reject(new TimeoutError());
         },
-        opt.timeout);
+        (writeTime * 1000) + opt.timeout);
 
       port.on('data', callback);
     });
   } else {
-    port.write(' ~');
-    await waitForDrain(port, true);
+    await waitForDuration(writeTime * 1000);
   }
 }
