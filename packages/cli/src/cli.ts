@@ -68,13 +68,12 @@ async function main() {
     .option('-p, --port <portName>', 'serial port to use')
     .version('0.1.0', '-v, --version');
 
-  command
-    .addCommand(
-      new Command('load')
-        .arguments('<filename>')
-        .description('load a file')
-        .option('--mode <mode>', '"hex", "base64"')
-    );
+  const loadCommand = new Command('load')
+    .arguments('<filename>')
+    .description('load a file')
+    .option('--mode <mode>', '"hex", "base64"');
+
+  command.addCommand(loadCommand);
 
   command
     .addCommand(new Command('version')
@@ -87,17 +86,17 @@ async function main() {
   }
 
   if (command.args[0] === 'load') {
-    if (command.args.length !== 2) {
+    if (loadCommand.args.length !== 1) {
       command.help();
     }
 
     try {
-      fs.accessSync(command.args[1], fs.constants.R_OK);
+      fs.accessSync(loadCommand.args[0], fs.constants.R_OK);
     } catch {
       command.help();
     }
 
-    if (command.mode && command.mode !== 'hex' && command.mode !== 'base64') {
+    if (loadCommand.mode && loadCommand.mode !== 'hex' && loadCommand.mode !== 'base64') {
       command.help();
     }
   }
@@ -122,9 +121,8 @@ async function main() {
   }
   else if (command.args[0] === 'load') {
     try {
-      // const bin = readFileSync('C:\\Users\\Seairth\\dev\\Parallax\\P2\\play\\led_matrix.bin');
-      const bin = fs.readFileSync(command.args[1]);
-      await propLoad(port, bin, { timeout: 1000, hex: (command.mode === 'hex')  });
+      const bin = fs.readFileSync(loadCommand.args[0]);
+      await propLoad(port, bin, { timeout: 10_000, hex: (loadCommand.mode === 'hex')  });
     }
     catch(e) {
       console.error(e);
