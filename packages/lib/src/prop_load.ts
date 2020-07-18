@@ -32,6 +32,8 @@ export async function propLoad( port: SerialPort, data: ArrayBuffer|Buffer, opti
     throw new Error('Port is not open.');
   }
 
+  const opt = getValidWriteCommandOptions(options, 100);
+
   let bufferLen = data.byteLength;
 
   const mod4 = data.byteLength % 4;
@@ -40,7 +42,7 @@ export async function propLoad( port: SerialPort, data: ArrayBuffer|Buffer, opti
     bufferLen += 4 - mod4;
   }
 
-  if (options.checksum) {
+  if (opt.checksum) {
     bufferLen += 4;
   }
 
@@ -51,8 +53,6 @@ export async function propLoad( port: SerialPort, data: ArrayBuffer|Buffer, opti
   } else {
     (new Uint8Array(buffer).set(data));
   }
-
-  const opt = getValidWriteCommandOptions(options, 100);
 
   if (opt.checksum) {
     calculateAndSetChecksum(buffer);
